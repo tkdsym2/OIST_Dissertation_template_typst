@@ -294,6 +294,30 @@
     }
   }
   
+  // Configure table captions to appear above tables
+  show figure: it => {
+    if it.body.func() == table {
+      // For tables: place caption above the table with no spacing
+      block(spacing: 1.0cm)[
+        #block(
+          spacing: 10pt,
+          width: 100%
+        )[
+          #set align(left)
+          #set text(font: "Helvetica", size: 10pt)
+          #context {
+            let fig = it
+            [*Table #fig.counter.display(fig.numbering)*: #fig.caption.body]
+          }
+        ]
+        #block(spacing: 10pt, it.body)
+      ]
+    } else {
+      // For figures and other content: use default positioning (caption below)
+      it
+    }
+  }
+
   // Configure figure and table numbering (chapter.number format)
   set figure(numbering: it => {
     let chap = counter(heading).get().at(0, default: 1)
