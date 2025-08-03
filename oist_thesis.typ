@@ -316,12 +316,13 @@
       show heading.where(level: 1): it => {
         pagebreak(weak: true)
         v(2em)
-        set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
         block[
           #if it.numbering != none [
+            #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
             Chapter #counter(heading).display(it.numbering)
             #linebreak()
           ]
+          #set text(size: 29.86pt, weight: "bold", font: "Times New Roman")
           #it.body
         ]
         v(0.65em)
@@ -374,13 +375,19 @@
       show heading.where(level: 1): it => {
         pagebreak(weak: true)
         v(2em)
-        set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
-        block[
+        set par(first-line-indent: 0em)
+        block(
+          width: 100%,
+          inset: (left: 0pt),
+        )[
           #if it.numbering != none [
-            Chapter #counter(heading).display(it.numbering)
+            #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
+            #align(left)[Chapter #counter(heading).display(it.numbering)]
             #linebreak()
+            #v(-2.0em)
           ]
-          #it.body
+          #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
+          #align(left)[#it.body]
         ]
         v(1.8em)  // 1.5 line spacing after chapter
       }
