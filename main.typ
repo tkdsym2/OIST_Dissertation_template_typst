@@ -62,8 +62,8 @@
 // MAIN TEXT
 // ================================
 
-// Switch to arabic numerals for main content
-#set page(numbering: "1")
+// Switch to arabic numerals for main content and add headers
+#set page(numbering: "1", header: page_header)
 #counter(page).update(1)
 
 // Main chapters

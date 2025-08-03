@@ -8,7 +8,7 @@
 #let thesis-author = state("thesis-author", "")
 #let thesis-submission-date = state("thesis-submission-date", "")
 
-// Page header function
+// Page header function with underline
 #let page_header = context {
   let is_final = final-mode.get()
   let current_page = counter(page).get().first()
@@ -27,7 +27,8 @@
     
     set text(size: 10pt, weight: "bold", font: "Times New Roman")
     
-    if is_final {
+    // Create header content
+    let header_content = if is_final {
       // Submission mode: different headers for even/odd pages (two-sided)
       if is_even {
         // Even pages (left): chapter on right, page on left
@@ -52,9 +53,20 @@
         align(right, str(current_page))
       )
     }
+    
+    // Add header content with underline
+    block(below: 0.0em, spacing: 0pt)[
+      #header_content
+      #v(-1.5em)
+      #line(length: 100%, stroke: 0.5pt)
+    ]
   } else {
-    // No chapter yet, just show page number
-    align(right, str(current_page))
+    // No chapter yet, just show page number with underline
+    block(below: 0.0em, spacing: 0pt)[
+      #align(right, str(current_page))
+      #v(-1.5em)
+      #line(length: 100%, stroke: 0.5pt)
+    ]
   }
 }
 
@@ -427,10 +439,10 @@
   // Title page
   title_page(title, author, supervisor, cosupervisor, submission_date)
   
-  // Start front matter with roman numerals
+  // Start front matter with roman numerals (no header on preamble pages)
   set page(
     numbering: "i",
-    header: page_header
+    header: none
   )
   counter(page).update(1)
   
