@@ -8,34 +8,6 @@
 #let thesis-author = state("thesis-author", "")
 #let thesis-submission-date = state("thesis-submission-date", "")
 
-// Custom citation grouping function - manually create grouped citations
-#let cite-group(..keys) = {
-  // For grouped citations, manually format without nested parentheses
-  let citation_parts = ()
-  for key in keys.pos() {
-    // Get bibliographic info for manual formatting
-    if str(key) == "Fil09" {
-      citation_parts.push("Filipp et al., 2009")
-    } else if str(key) == "Muc10" {
-      citation_parts.push("Mücke et al., 2010") 
-    } else if str(key) == "Kra27" {
-      citation_parts.push("Kramers & Heisenberg, 1925")
-    } else if str(key) == "Lee98" {
-      citation_parts.push("Lee & Scully, 1998")
-    } else {
-      // Fallback to regular citation
-      citation_parts.push(str(cite(key)))
-    }
-  }
-  
-  if citation_parts.len() > 1 {
-    "(" + citation_parts.join("; ") + ")"
-  } else if citation_parts.len() == 1 {
-    "(" + citation_parts.first() + ")"
-  } else {
-    ""
-  }
-}
 
 // Page header function with underline
 #let page_header = context {
