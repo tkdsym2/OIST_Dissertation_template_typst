@@ -294,7 +294,7 @@
     }
   }
   
-  // Configure table captions to appear above tables
+  // Configure table captions to appear above tables and align all captions to left
   show figure: it => {
     if it.body.func() == table {
       // For tables: place caption above the table with no spacing
@@ -313,8 +313,22 @@
         #block(spacing: 10pt, it.body)
       ]
     } else {
-      // For figures and other content: use default positioning (caption below)
-      it
+      // For figures and other content: use default positioning (caption below) but left-aligned
+      block[
+        #it.body
+        #block(width: 100%)[
+          #set align(left)
+          #set text(font: "Helvetica", size: 10pt)
+          #context {
+            let fig = it
+            if fig.body.func() == image {
+              [*Figure #fig.counter.display(fig.numbering)*: #fig.caption.body]
+            } else {
+              [*#fig.supplement #fig.counter.display(fig.numbering)*: #fig.caption.body]
+            }
+          }
+        ]
+      ]
     }
   }
 
