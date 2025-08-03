@@ -25,7 +25,7 @@
     
     let is_even = calc.rem(current_page, 2) == 0
     
-    set text(size: 10pt, weight: "bold")
+    set text(size: 10pt, weight: "bold", font: "Times New Roman")
     
     if is_final {
       // Submission mode: different headers for even/odd pages (two-sided)
@@ -60,7 +60,7 @@
 
 // Title page function
 #let title_page(title, author, supervisor, cosupervisor, submission_date) = {
-  // Set Computer Modern Roman font for title page (CMU Serif is the Typst equivalent)
+  // Set Times New Roman font for title page (instead of CMU Serif)
   set text(font: "CMU Serif", size: 12pt)
   
   set page(
@@ -92,58 +92,88 @@
     // Reduce top space to move elements higher
     v(0.3fr)
     
-    // University name in small caps (scshape equivalent)
-    text(size: 14.4pt)[
-      #smallcaps[Okinawa Institute of Science and Technology]\
-      #smallcaps[Graduate University]
+    // University name in small caps style (manual implementation)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #text(size: 14.4pt)[
+        #text(size: 14.4pt)[O]#text(size: 11.5pt)[KINAWA] 
+        #text(size: 14.4pt)[I]#text(size: 11.5pt)[NSTITUTE] 
+        #text(size: 11.5pt)[OF] 
+        #text(size: 14.4pt)[S]#text(size: 11.5pt)[CIENCE] 
+        #text(size: 14.4pt)[A]#text(size: 11.5pt)[ND] 
+        #text(size: 14.4pt)[T]#text(size: 11.5pt)[ECHNOLOGY]\
+        #text(size: 14.4pt)[G]#text(size: 11.5pt)[RADUATE] 
+        #text(size: 14.4pt)[U]#text(size: 11.5pt)[NIVERSITY]
+      ]
     ]
-    v(0.4cm)
+    v(1.0cm)
     
     // Degree text (large = 14.4pt in LaTeX)
-    text(size: 14.4pt, "Thesis submitted for the degree")
-    v(0.4cm)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #text(size: 14.4pt, font: "CMU Serif", "Thesis submitted for the degree")
+    ]
+    v(1.0cm)
     
     // Degree type (Large = 17.28pt in LaTeX)
-    text(size: 17.28pt, "Doctor of Philosophy")
-    v(0.4cm)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #text(size: 17.28pt, font: "CMU Serif", "Doctor of Philosophy")
+    ]
+    v(1.0cm)
     
     // Top line
-    line(length: 100%, stroke: 1.5pt)
-    v(-0.5cm)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #line(length: 100%, stroke: 1.2pt)
+    ]
+    v(0.5cm)
     
     // Title (huge = 24.88pt in LaTeX)
-    text(size: 24.88pt, weight: "bold", title)
-    v(-0.5cm)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #text(size: 24.88pt, font: "CMU Serif", title)
+    ]
+    v(0.5cm)
     
     // Bottom line
-    line(length: 100%, stroke: 1.5pt)
+    block(spacing: 0pt)[
+      #set par(leading: 0.65em)  // Tight line spacing
+      #line(length: 100%, stroke: 1.2pt)
+    ]
     v(2.5cm)
     
     // Author section
-    align(right, text(size: 12pt, "by"))
-    v(1cm)
-    align(right, text(size: 14.4pt, weight: "bold", author))
-    
-    // Increase bottom space to compensate
+    align(right)[
+      #block(spacing: 0pt)[
+        #set par(leading: 0.65em)  // Tight line spacing
+        #text(size: 12pt, font: "CMU Serif", "by")
+        #v(0.2cm)
+        #text(size: 14.4pt, weight: "bold", font: "CMU Serif", author)
+      ]
+    ]
+
     v(4.0fr)
     
     // Supervisor section
-    align(right, [
-      #text(size: 14.4pt, "Supervisor: ")
-      #text(size: 14.4pt, weight: "bold", supervisor)
-    ])
-    
-    // Co-supervisor if exists
-    if cosupervisor != none {
-      v(0cm) // No extra space between supervisor and co-supervisor
-      align(right, [
-        #text(size: 14.4pt, "Co-Supervisor: ")
-        #text(size: 14.4pt, weight: "bold", cosupervisor)
-      ])
-    }
-    
-    v(1cm)
-    align(right, text(size: 12pt, submission_date))
+    align(right)[
+      #block(spacing: 0pt)[
+        #set par(leading: 0.65em)  // Tight line spacing
+        #text(size: 14.4pt, font: "CMU Serif", "Supervisor: ")
+        #text(size: 14.4pt, weight: "bold", font: "CMU Serif", supervisor)
+
+        // Co-supervisor if exists
+        #if cosupervisor != none {
+          v(-1.0cm) // No extra space between supervisor and co-supervisor
+          linebreak()
+          text(size: 14.4pt, font: "CMU Serif", "Co-Supervisor: ")
+          text(size: 14.4pt, weight: "bold", font: "CMU Serif", cosupervisor)
+        }
+        
+        #v(1cm)
+        #text(size: 12pt, font: "CMU Serif", submission_date)
+      ]
+    ]
   })
   
   pagebreak()
@@ -169,7 +199,7 @@
   thesis-author.update(author)
   thesis-submission-date.update(submission_date)
   
-  // Set base font (Times New Roman or similar)
+  // Set base font (Times New Roman for primary text)
   set text(font: "Times New Roman", lang: "en", size: 12pt)
   
   // Configure list settings to match LaTeX itemize
@@ -204,7 +234,7 @@
   // Configure figure and table captions
   set figure.caption(separator: ": ")
   
-  // Style figure captions with sans-serif font (Helvetica)
+  // Style figure captions with Helvetica font (secondary font)
   show figure.caption: it => {
     // Use Helvetica (sans-serif) at 10pt
     set text(font: "Helvetica", size: 10pt)
@@ -249,6 +279,22 @@
     it
   }
   
+  // Style for code blocks and raw text (technical font)
+  show raw: it => {
+    set text(font: "CMU Typewriter Text", size: 10pt)
+    if it.block {
+      block(
+        fill: luma(245),
+        inset: 10pt,
+        radius: 4pt,
+        breakable: false,
+        it
+      )
+    } else {
+      it
+    }
+  }
+  
   // Apply mode-specific spacing using show rule (recommended approach)
   show: body => {
     if mode == "submission" {
@@ -270,7 +316,7 @@
       show heading.where(level: 1): it => {
         pagebreak(weak: true)
         v(2em)
-        set text(size: 24.88pt, weight: "bold")
+        set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
         block[
           #if it.numbering != none [
             Chapter #counter(heading).display(it.numbering)
@@ -284,7 +330,7 @@
       // Style section headings (level 2) for submission mode
       show heading.where(level: 2): it => {
         v(0.65em)
-        set text(size: 17.28pt, weight: "bold")
+        set text(size: 17.28pt, weight: "bold", font: "Times New Roman")
         it
         v(0.65em)
       }
@@ -292,14 +338,14 @@
       // Style subsection headings (level 3) for submission mode
       show heading.where(level: 3): it => {
         v(0.65em)
-        set text(size: 14.4pt, weight: "bold")
+        set text(size: 14.4pt, weight: "bold", font: "Times New Roman")
         it
         v(0.65em)
       }
       
       // Configure outline spacing for submission mode
       show outline: it => {
-        set text(size: 12pt)
+        set text(size: 12pt, font: "Times New Roman")
         set par(leading: 0.65em)
         it
       }
@@ -328,7 +374,7 @@
       show heading.where(level: 1): it => {
         pagebreak(weak: true)
         v(2em)
-        set text(size: 24.88pt, weight: "bold")
+        set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
         block[
           #if it.numbering != none [
             Chapter #counter(heading).display(it.numbering)
@@ -342,7 +388,7 @@
       // Style section headings (level 2) for draft mode
       show heading.where(level: 2): it => {
         v(1.8em)
-        set text(size: 17.28pt, weight: "bold")
+        set text(size: 17.28pt, weight: "bold", font: "Times New Roman")
         it
         v(1.8em)
       }
@@ -350,14 +396,14 @@
       // Style subsection headings (level 3) for draft mode
       show heading.where(level: 3): it => {
         v(1.8em)
-        set text(size: 14.4pt, weight: "bold")
+        set text(size: 14.4pt, weight: "bold", font: "Times New Roman")
         it
         v(1.8em)
       }
       
       // Configure outline spacing for draft mode
       show outline: it => {
-        set text(size: 12pt)
+        set text(size: 12pt, font: "Times New Roman")
         set par(leading: 1.5em)
         it
       }
@@ -368,7 +414,7 @@
   
   // Style outline entries - make chapter entries bold
   show outline.entry.where(level: 1): it => {
-    text(weight: "bold", it)
+    text(weight: "bold", font: "Times New Roman", it)
   }
   
   // Title page

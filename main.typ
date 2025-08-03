@@ -1,7 +1,7 @@
 #import "oist_thesis.typ": *
 
 #show: doc => thesis(
-  title: "A Typst Thesis Template",
+  title: "Typst Dissertation Template",
   author: "Kazuma takada",
   supervisor: "S. Upervisor",
   cosupervisor: "C. O'Supervisor",
