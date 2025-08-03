@@ -62,8 +62,8 @@
 // MAIN TEXT
 // ================================
 
-// Switch to arabic numerals for main content and add headers
-#set page(numbering: "1", header: page_header)
+// Switch to main content with headers but no bottom page numbers
+#set page(numbering: none, header: page_header)
 #counter(page).update(1)
 
 // Main chapters

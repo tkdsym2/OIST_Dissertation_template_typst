@@ -14,6 +14,26 @@
   let current_page = counter(page).get().first()
   let chapter_query = query(selector(heading.where(level: 1)).before(here()))
   
+  // check the current page for chapter heading
+  let on_chapter_page = false
+  let chapter_on_this_page = query(selector(heading.where(level: 1)).after(here()))
+  if chapter_on_this_page.len() > 0 {
+    // If there is a chapter heading on the current page
+    let chapter_location = chapter_on_this_page.first().location()
+    let current_location = here()
+    // If they are on the same page
+    if chapter_location.page() == current_location.page() {
+      on_chapter_page = true
+    }
+  }
+
+  // If this is the first page of a chapter, show only page number in upper right
+  if on_chapter_page {
+    set text(size: 10pt, weight: "bold", font: "Times New Roman")
+    align(right, str(current_page))
+    return
+  }
+  
   // Get chapter information
   if chapter_query.len() > 0 {
     let chapter = chapter_query.last()
@@ -283,12 +303,22 @@
   set math.equation(numbering: "(1)")
   
   // Configure bibliography style
-  set bibliography(style: "ieee", title: "Bibliography")
+  set bibliography(style: "apa", title: "Bibliography")
   
-  // Configure cite style to match natbib square brackets
+  // Configure cite style for APA format with proper grouping
   show cite: it => {
     set text(weight: "regular")
-    it
+    // Handle multiple citations separated by commas and convert to semicolons
+    let content = it
+    if type(it) == content and it.has("text") {
+      let text_content = it.text
+      if text_content.contains(",") {
+        // Replace commas with semicolons in citation groups
+        let new_text = text_content.replace(", ", "; ")
+        content = text(new_text)
+      }
+    }
+    content
   }
   
   // Style for code blocks and raw text (technical font)
