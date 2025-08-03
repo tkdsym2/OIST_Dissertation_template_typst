@@ -8,6 +8,35 @@
 #let thesis-author = state("thesis-author", "")
 #let thesis-submission-date = state("thesis-submission-date", "")
 
+// Custom citation grouping function - manually create grouped citations
+#let cite-group(..keys) = {
+  // For grouped citations, manually format without nested parentheses
+  let citation_parts = ()
+  for key in keys.pos() {
+    // Get bibliographic info for manual formatting
+    if str(key) == "Fil09" {
+      citation_parts.push("Filipp et al., 2009")
+    } else if str(key) == "Muc10" {
+      citation_parts.push("Mücke et al., 2010") 
+    } else if str(key) == "Kra27" {
+      citation_parts.push("Kramers & Heisenberg, 1925")
+    } else if str(key) == "Lee98" {
+      citation_parts.push("Lee & Scully, 1998")
+    } else {
+      // Fallback to regular citation
+      citation_parts.push(str(cite(key)))
+    }
+  }
+  
+  if citation_parts.len() > 1 {
+    "(" + citation_parts.join("; ") + ")"
+  } else if citation_parts.len() == 1 {
+    "(" + citation_parts.first() + ")"
+  } else {
+    ""
+  }
+}
+
 // Page header function with underline
 #let page_header = context {
   let is_final = final-mode.get()
@@ -302,23 +331,13 @@
   // Configure equation numbering
   set math.equation(numbering: "(1)")
   
-  // Configure bibliography style
+  // Configure bibliography style  
   set bibliography(style: "apa", title: "Bibliography")
   
-  // Configure cite style for APA format with proper grouping
+  // Configure cite style for APA format
   show cite: it => {
     set text(weight: "regular")
-    // Handle multiple citations separated by commas and convert to semicolons
-    let content = it
-    if type(it) == content and it.has("text") {
-      let text_content = it.text
-      if text_content.contains(",") {
-        // Replace commas with semicolons in citation groups
-        let new_text = text_content.replace(", ", "; ")
-        content = text(new_text)
-      }
-    }
-    content
+    it
   }
   
   // Style for code blocks and raw text (technical font)
