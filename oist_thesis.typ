@@ -494,6 +494,15 @@
   show outline.entry.where(level: 1): it => {
     text(weight: "bold", font: "Times New Roman", it)
   }
+
+  // Style figure and table outline entries with thin font weight
+  show outline.entry: it => {
+    if it.element != none and it.element.func() == figure {
+      text(weight: "regular", font: "Times New Roman", it)
+    } else {
+      it
+    }
+  }
   
   // Title page
   title_page(title, author, supervisor, cosupervisor, submission_date)
