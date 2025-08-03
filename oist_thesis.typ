@@ -212,10 +212,10 @@
   pagebreak()
 }
 
-// Appendix function
+// Appendix function (simplified - no automatic chapter numbering)
 #let appendix(body) = {
-  counter(heading).update(0)
-  set heading(numbering: "A.1")
+  // Remove automatic chapter numbering for appendices
+  set heading(numbering: none)
   body
 }
 

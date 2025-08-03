@@ -87,6 +87,26 @@
 
 #v(2em)
 #unnumbered-chapter("Appendices")
-#appendix[
-  #include "chapters/appendixA.typ"
-]
+
+// Table of Appendices
+#v(1em)
+#table(
+  columns: (auto, 1fr, auto),
+  stroke: none,
+  align: (left, left, right),
+  [*Appendix*], [*Title*], [*Page*],
+  table.hline(),
+  [A], [First Appendix], [#context {
+    let targets = query(<appendix-a>)
+    if targets.len() > 0 {
+      counter(page).at(targets.first().location()).first()
+    } else {
+      "?"
+    }
+  }],
+)
+
+#pagebreak()
+
+// Appendix content without chapter structure
+#include "chapters/appendixA.typ"
