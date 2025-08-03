@@ -366,6 +366,12 @@
     }
   }
   
+  // Style for links
+  show link: it => {
+    set text(font: "CMU Sans Serif")
+    underline(it)
+  }
+  
   // Apply mode-specific spacing using show rule (recommended approach)
   show: body => {
     if mode == "submission" {
