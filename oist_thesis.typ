@@ -355,6 +355,7 @@
     set text(font: "CMU Typewriter Text", size: 12pt)
     if it.block {
       block(
+        width: 100%,
         fill: luma(245),
         inset: 10pt,
         radius: 4pt,
