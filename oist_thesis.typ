@@ -352,7 +352,7 @@
   
   // Style for code blocks and raw text (technical font)
   show raw: it => {
-    set text(font: "CMU Typewriter Text", size: 10pt)
+    set text(font: "CMU Typewriter Text", size: 12pt)
     if it.block {
       block(
         fill: luma(245),
