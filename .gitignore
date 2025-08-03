@@ -1,0 +1,5 @@
+*.pdf
+!main.pdf
+latex_template
+
+.DS_Store
