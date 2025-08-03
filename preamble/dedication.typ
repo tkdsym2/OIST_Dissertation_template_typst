@@ -1,4 +1,5 @@
 #import "../oist_thesis.typ": unnumbered-chapter
 #unnumbered-chapter("Dedication")
 
-This is where you can write a dedication.
+If desired, an optional and short dedication may be
+included here.
