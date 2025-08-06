@@ -490,8 +490,16 @@
     }
   }
   
-  // Style outline entries - make chapter entries bold
+  // Style outline entries - make chapter entries bold and add space before main content
   show outline.entry.where(level: 1): it => {
+    // Add extra space before "Introduction" to separate from lists (ToC, LoF, LoT)
+    if it.element != none and it.element.body != none {
+      // Check if this is the Introduction heading by comparing the body content
+      if repr(it.element.body) == repr([Introduction]) {
+        v(1.0em)
+      }
+    }
+    
     text(weight: "bold", font: "Times New Roman", it)
   }
 
