@@ -6,7 +6,7 @@
   supervisor: "S. Upervisor",
   cosupervisor: "C. O'Supervisor",
   submission_date: "August 2025",
-  mode: "submission", // Change to "submission" for the final submission
+  mode: "draft", // Change to "submission" for the final submission
   doc,
 )
 
