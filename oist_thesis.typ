@@ -16,7 +16,7 @@
   
   // Get the current mode and set spacing accordingly
   let is_submission = final-mode.get()
-  let header_spacing = if is_submission { -0.5em } else { -1.5em }  // Adjust these values as needed
+  let header_spacing = if is_submission { -0.4em } else { -1.5em }  // Adjust these values as needed
   
   // check the current page for chapter heading
   let on_chapter_page = false
@@ -379,12 +379,12 @@
             #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
             Chapter #counter(heading).display(it.numbering)
             #linebreak()
-            #v(2.3em)
+            #v(8mm)  // 8mm spacing between chapter number and title
           ]
           #set text(size: 29.86pt, weight: "bold", font: "Times New Roman")
           #it.body
         ]
-        v(3.5em)
+        v(13mm)  // 13mm spacing between chapter title and body text
       }
       
       // Style section headings (level 2) for submission mode
@@ -392,7 +392,7 @@
         v(0.65em)
         set text(size: 17.28pt, weight: "bold", font: "Times New Roman")
         it
-        v(2.0em)
+        v(0.65em)
       }
       
       // Style subsection headings (level 3) for submission mode
@@ -400,7 +400,7 @@
         v(0.65em)
         set text(size: 14.4pt, weight: "bold", font: "Times New Roman")
         it
-        v(1.5em)
+        v(0.65em)
       }
       
       // Configure outline spacing for submission mode
