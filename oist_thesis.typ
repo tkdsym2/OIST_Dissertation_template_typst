@@ -375,7 +375,7 @@
       
       // ネストされたリストにも余白を適用
       show list.item: it => {
-        block(above: 0.1em, below: 0.0em)[#it]
+        block(above: 0.0em, below: 0.0em)[#it]
       }
       
       // Style chapter headings (level 1) for submission mode
@@ -513,13 +513,6 @@
     header: none
   )
   counter(page).update(1)
-  
-  // Main body with headers
-  show: rest => {
-    // Enable headers for main content
-    set page(header: page_header)
-    rest
-  }
   
   body
 }
