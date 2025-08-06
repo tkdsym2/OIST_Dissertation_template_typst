@@ -363,10 +363,19 @@
       // Set page header for submission mode
       set page(header: page_header)
       
-      // Apply list spacing for submission mode
+      // Apply list spacing for submission mode - IMPROVED VERSION
       show list: it => {
+        // リストの前後に適切な余白を追加
+        v(0.8em)  // リストの前の余白
         set par(leading: 0.65em, spacing: 0.65em)
+        set list(spacing: 0.5em)  // リストアイテム間の余白
         it
+        v(0.8em)  // リストの後の余白
+      }
+      
+      // ネストされたリストにも余白を適用
+      show list.item: it => {
+        block(above: 0.1em, below: 0.0em)[#it]
       }
       
       // Style chapter headings (level 1) for submission mode
