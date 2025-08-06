@@ -273,8 +273,8 @@
   // Configure table captions to appear above tables and align all captions to left
   show figure: it => {
     if it.body.func() == table {
-      // For tables: place caption above the table with no spacing
-      block(spacing: 1.0cm)[
+      // For tables: place caption above the table with consistent spacing
+      block(above: 2.0em, below: 2.0em)[
         #block(
           spacing: 10pt,
           width: 100%
@@ -290,7 +290,7 @@
       ]
     } else {
       // For figures and other content: use default positioning (caption below) but left-aligned
-      block[
+      block(above: 1.5em, below: 1.5em)[
         #it.body
         #block(width: 100%)[
           #set align(left)
