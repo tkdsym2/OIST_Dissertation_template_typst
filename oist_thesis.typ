@@ -320,6 +320,12 @@
   // Configure bibliography style  
   set bibliography(style: "apa", title: "Bibliography")
   
+  // Add spacing between bibliography entries
+  show bibliography: it => {
+    set par(spacing: 1.5em)
+    it
+  }
+  
   // Configure cite style for APA format
   show cite: it => {
     set text(weight: "regular")
