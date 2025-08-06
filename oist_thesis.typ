@@ -332,6 +332,12 @@
     it
   }
   
+  // Configure quote styling to remove first-line indent
+  show quote: it => {
+    set par(first-line-indent: 0em)
+    it
+  }
+  
   // Style for code blocks and raw text (technical font)
   show raw: it => {
     set text(font: "CMU Typewriter Text", size: 12pt)
