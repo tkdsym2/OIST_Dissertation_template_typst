@@ -415,7 +415,7 @@
       // Configure outline spacing for submission mode
       show outline: it => {
         set text(size: 12pt, font: "Times New Roman")
-        set par(leading: 0.65em)
+        set par(leading: 0.65em, spacing: 1.2em)
         it
       }
       
@@ -482,7 +482,7 @@
       // Configure outline spacing for draft mode
       show outline: it => {
         set text(size: 12pt, font: "Times New Roman")
-        set par(leading: 1.5em)
+        set par(leading: 1.5em, spacing: 1.8em)
         it
       }
       
