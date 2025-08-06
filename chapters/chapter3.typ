@@ -75,12 +75,18 @@ Refer to tables like this: `@tab-values`, which will be shown as @tab-values. Sh
 
 Additional images are attached below (@fig-Timeconversion[Fig.], @fig-Env_statistics[Fig.]).
 
+First figure is an example of time expression, which shows how time can be expressed in different formats. The second figure is a statistical characterization of meteorological data, which includes p-values calculated using Kruskal-Wallis tests across months.
+
 #figure(
   image("../images/chap3/TimeConversion.png", width: 50%),
   caption: [Example of Time Expression: Example of time expressed in AM/PM, 24-hour time (military time) and hour of day format. Feeding time which were originally military time format were converted to decimal time format (hour of day) for XX regression.],
 ) <fig-Timeconversion>
 
+Second figure is a statistical characterization of meteorological data, which includes p-values calculated using Kruskal-Wallis tests across months.
+
 #figure(
   image("../images/chap3/TableExample.png", width: 100%),
   caption: [Statistic Characterization of Meteorological Data: P-values were calculated using Kruskal-Wallis tests across months. Significant differences were identified at a false discovery rate -adjusted p-value < 0.05.],
 ) <fig-Env_statistics>
+
+These figures are examples of how to present data in a clear and concise manner.
