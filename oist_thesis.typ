@@ -171,7 +171,7 @@
 
         // Co-supervisor if exists
         #if cosupervisor != none {
-          v(-1.0cm) // No extra space between supervisor and co-supervisor
+          v(-0.5cm) // No extra space between supervisor and co-supervisor
           linebreak()
           text(size: 14.4pt, font: "CMU Serif", "Co-Supervisor: ")
           text(size: 14.4pt, weight: "bold", font: "CMU Serif", cosupervisor)
