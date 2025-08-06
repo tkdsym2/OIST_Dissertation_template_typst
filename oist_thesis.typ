@@ -395,15 +395,17 @@
         pagebreak(weak: true)
         v(2em)
         block[
+          #set par(first-line-indent: 0em)
           #if it.numbering != none [
             #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
             Chapter #counter(heading).display(it.numbering)
             #linebreak()
+            #v(2.3em)
           ]
           #set text(size: 29.86pt, weight: "bold", font: "Times New Roman")
           #it.body
         ]
-        v(0.65em)
+        v(3.5em)
       }
       
       // Style section headings (level 2) for submission mode
@@ -411,7 +413,7 @@
         v(0.65em)
         set text(size: 17.28pt, weight: "bold", font: "Times New Roman")
         it
-        v(0.65em)
+        v(2.0em)
       }
       
       // Style subsection headings (level 3) for submission mode
@@ -419,7 +421,7 @@
         v(0.65em)
         set text(size: 14.4pt, weight: "bold", font: "Times New Roman")
         it
-        v(0.65em)
+        v(1.5em)
       }
       
       // Configure outline spacing for submission mode
