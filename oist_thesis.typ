@@ -11,9 +11,12 @@
 
 // Page header function with underline
 #let page_header = context {
-  let is_final = final-mode.get()
   let current_page = counter(page).get().first()
   let chapter_query = query(selector(heading.where(level: 1)).before(here()))
+  
+  // Get the current mode and set spacing accordingly
+  let is_submission = final-mode.get()
+  let header_spacing = if is_submission { -0.5em } else { -1.5em }  // Adjust these values as needed
   
   // check the current page for chapter heading
   let on_chapter_page = false
@@ -40,52 +43,23 @@
     let chapter = chapter_query.last()
     let chapter_title = chapter.body
     
-    // Get section information for final mode
-    let section_query = query(selector(heading.where(level: 2)).before(here()))
-    let section_title = if section_query.len() > 0 { section_query.last().body } else { none }
-    
-    let is_even = calc.rem(current_page, 2) == 0
-    
     set text(size: 10pt, weight: "bold", font: "Times New Roman")
     
-    // Create header content
-    let header_content = if is_final {
-      // Submission mode: different headers for even/odd pages (two-sided)
-      if is_even {
-        // Even pages (left): chapter on right, page on left
-        grid(
-          columns: (auto, 1fr),
-          align(left, str(current_page)),
-          align(right, chapter_title)
-        )
-      } else {
-        // Odd pages (right): section on left, page on right
-        grid(
-          columns: (1fr, auto),
-          align(left, if section_title != none { section_title } else { "" }),
-          align(right, str(current_page))
-        )
-      }
-    } else {
-      // Draft mode: chapter on left, page on right (one-sided)
-      grid(
+    // Create header content with proper spacing
+    block(spacing: 0pt, above: 0pt, below: 0pt)[
+      #grid(
         columns: (1fr, auto),
         align(left, chapter_title),
         align(right, str(current_page))
       )
-    }
-    
-    // Add header content with underline
-    block(below: 0.0em, spacing: 0pt)[
-      #header_content
-      #v(-1.5em)
+      #v(header_spacing)  // Mode-specific spacing
       #line(length: 100%, stroke: 0.5pt)
     ]
   } else {
     // No chapter yet, just show page number with underline
-    block(below: 0.0em, spacing: 0pt)[
+    block(spacing: 0pt, above: 0pt, below: 0pt)[
       #align(right, str(current_page))
-      #v(-1.5em)
+      #v(header_spacing)  // Mode-specific spacing
       #line(length: 100%, stroke: 0.5pt)
     ]
   }
@@ -219,7 +193,7 @@
   body
 }
 
-// Main thesis function
+// Main thesis function  
 #let thesis(title: "", author: "", supervisor: "", cosupervisor: none, submission_date: "", mode: "draft", body) = {
   // Set document metadata
   set document(title: title, author: author)
@@ -244,15 +218,17 @@
   
   // Configure page settings based on mode
   if mode == "submission" {
-    // Submission version: two-sided layout
+    // Submission version: use same header style as draft mode
     set page(
       paper: "a4",
       margin: (left: 3.0cm, right: 2.5cm, top: 2.5cm, bottom: 2.5cm),
       header-ascent: 0.6cm,
-      footer-descent: 2pt
+      footer-descent: 2pt,
+      // Ensure consistent single-sided behavior like draft mode for header consistency
+      binding: left,
     )
   } else {
-    // Draft version: one-sided layout
+    // Draft version: one-sided layout  
     set page(
       paper: "a4",
       margin: (left: 3.0cm, right: 2.5cm, top: 2.5cm, bottom: 2.5cm),
@@ -384,6 +360,9 @@
         justify: true
       )
       
+      // Set page header for submission mode
+      set page(header: page_header)
+      
       // Apply list spacing for submission mode
       show list: it => {
         set par(leading: 0.65em, spacing: 0.65em)
@@ -440,6 +419,9 @@
         first-line-indent: 1.5em,
         justify: true
       )
+      
+      // Set page header for draft mode
+      set page(header: page_header)
       
       // Apply increased spacing to all blocks
       set block(spacing: 1.8em)
@@ -522,6 +504,13 @@
     header: none
   )
   counter(page).update(1)
+  
+  // Main body with headers
+  show: rest => {
+    // Enable headers for main content
+    set page(header: page_header)
+    rest
+  }
   
   body
 }
