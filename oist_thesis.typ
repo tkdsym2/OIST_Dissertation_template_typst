@@ -332,10 +332,17 @@
     it
   }
   
-  // Configure quote styling to remove first-line indent
+  // Configure quote styling for better visual clarity
   show quote: it => {
     set par(first-line-indent: 0em)
-    it
+    block(
+      above: 1.2em,
+      below: 1.2em,
+      inset: (left: 2em, right: 1em),
+      stroke: (left: 3pt + gray),
+      fill: luma(248),
+      radius: (left: 0pt, right: 4pt)
+    )[#it]
   }
   
   // Style for code blocks and raw text (technical font)
