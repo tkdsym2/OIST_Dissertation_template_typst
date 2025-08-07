@@ -9,60 +9,18 @@
 #let thesis-submission-date = state("thesis-submission-date", "")
 
 
-// Page header function with underline
+// Page header function - SIMPLIFIED VERSION
 #let page_header = context {
+  // シンプルなヘッダー：ページ番号のみを右上に表示
   let current_page = counter(page).get().first()
-  let chapter_query = query(selector(heading.where(level: 1)).before(here()))
   
-  // Get the current mode and set spacing accordingly
-  let is_submission = final-mode.get()
-  let header_spacing = if is_submission { -0.4em } else { -1.5em }  // Adjust these values as needed
-  
-  // check the current page for chapter heading
-  let on_chapter_page = false
-  let chapter_on_this_page = query(selector(heading.where(level: 1)).after(here()))
-  if chapter_on_this_page.len() > 0 {
-    // If there is a chapter heading on the current page
-    let chapter_location = chapter_on_this_page.first().location()
-    let current_location = here()
-    // If they are on the same page
-    if chapter_location.page() == current_location.page() {
-      on_chapter_page = true
-    }
-  }
-
-  // If this is the first page of a chapter, show only page number in upper right
-  if on_chapter_page {
-    set text(size: 10pt, weight: "bold", font: "Times New Roman")
-    align(right, str(current_page))
-    return
-  }
-  
-  // Get chapter information
-  if chapter_query.len() > 0 {
-    let chapter = chapter_query.last()
-    let chapter_title = chapter.body
-    
-    set text(size: 10pt, weight: "bold", font: "Times New Roman")
-    
-    // Create header content with proper spacing
-    block(spacing: 0pt, above: 0pt, below: 0pt)[
-      #grid(
-        columns: (1fr, auto),
-        align(left, chapter_title),
-        align(right, str(current_page))
-      )
-      #v(header_spacing)  // Mode-specific spacing
-      #line(length: 100%, stroke: 0.5pt)
-    ]
-  } else {
-    // No chapter yet, just show page number with underline
-    block(spacing: 0pt, above: 0pt, below: 0pt)[
-      #align(right, str(current_page))
-      #v(header_spacing)  // Mode-specific spacing
-      #line(length: 100%, stroke: 0.5pt)
-    ]
-  }
+  // placeを使ってページ上端から2.5cmの位置に正確に配置
+  place(
+    top + right,
+    dy: 2.5cm,  // ページ上端から2.5cmの位置
+    dx: 0cm,
+    text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
+  )
 }
 
 // Title page function
@@ -197,45 +155,45 @@
 #let thesis(title: "", author: "", supervisor: "", cosupervisor: none, submission_date: "", mode: "draft", body) = {
   // Set document metadata
   set document(title: title, author: author)
-  
-  // Update final mode state
   final-mode.update(mode == "submission")
-  
-  // Update thesis metadata states
   thesis-title.update(title)
   thesis-author.update(author)
   thesis-submission-date.update(submission_date)
   
-  // Set base font (Times New Roman for primary text)
-  set text(font: "Times New Roman", lang: "en", size: 12pt)
-  
-  // Configure list settings to match LaTeX itemize
-  set list(
-    indent: 2em,
-    body-indent: 0.5em,
-    marker: ([•], [--], [◦], [·]),  // Bullet styles for nested lists
-  )
-  
-  // Configure page settings based on mode
+  // Configure page settings - STANDARD TYPST APPROACH
   if mode == "submission" {
-    // Submission version: use same header style as draft mode
     set page(
-      paper: "a4",
-      margin: (left: 3.0cm, right: 2.5cm, top: 2.5cm, bottom: 2.5cm),
-      header-ascent: 0.6cm,
-      footer-descent: 2pt,
-      // Ensure consistent single-sided behavior like draft mode for header consistency
+      paper:  "a4",
+      margin: (
+        left:   3.0cm,
+        right:  2.5cm,
+        top:    3.5cm,
+        bottom: 2.5cm,
+      ),
+      header: page_header,
       binding: left,
     )
   } else {
     // Draft version: one-sided layout  
     set page(
-      paper: "a4",
-      margin: (left: 3.0cm, right: 2.5cm, top: 2.5cm, bottom: 2.5cm),
-      header-ascent: 0.6cm,
-      footer-descent: 2pt
+      paper:  "a4",
+      margin: (
+        left:   3.0cm,
+        right:  2.5cm,
+        top:    3.5cm,
+        bottom: 2.5cm,
+      ),
+      header: page_header,
     )
   }
+
+  // Set base font (Times New Roman for primary text)
+  set text(font: "Times New Roman", lang: "en", size: 12pt)
+  set list(
+    indent: 2em,
+    body-indent: 0.5em,
+    marker: ([•], [--], [◦], [·]),
+  )
   
   // Configure heading numbering
   set heading(numbering: "1.1")
@@ -379,20 +337,15 @@
         justify: true
       )
       
-      // Set page header for submission mode
-      set page(header: page_header)
-      
-      // Apply list spacing for submission mode - IMPROVED VERSION
+      // Apply list spacing for submission mode
       show list: it => {
-        // リストの前後に適切な余白を追加
-        v(0.8em)  // リストの前の余白
+        v(0.8em)
         set par(leading: 0.65em, spacing: 0.65em)
-        set list(spacing: 0.5em)  // リストアイテム間の余白
+        set list(spacing: 0.5em)
         it
-        v(0.8em)  // リストの後の余白
+        v(0.8em)
       }
       
-      // ネストされたリストにも余白を適用
       show list.item: it => {
         block(above: 0.0em, below: 0.0em)[#it]
       }
@@ -407,12 +360,12 @@
             #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
             Chapter #counter(heading).display(it.numbering)
             #linebreak()
-            #v(8mm)  // 8mm spacing between chapter number and title
+            #v(8mm)
           ]
           #set text(size: 29.86pt, weight: "bold", font: "Times New Roman")
           #it.body
         ]
-        v(13mm)  // 13mm spacing between chapter title and body text
+        v(13mm)
       }
       
       // Style section headings (level 2) for submission mode
@@ -442,14 +395,11 @@
     } else {
       // 1.5 spacing for draft version
       set par(
-        leading: 1.2em,  // Increased leading for 1.5 line spacing
-        spacing: 1.8em,  // Increased paragraph spacing
+        leading: 1.2em,
+        spacing: 1.8em,
         first-line-indent: 1.5em,
         justify: true
       )
-      
-      // Set page header for draft mode
-      set page(header: page_header)
       
       // Apply increased spacing to all blocks
       set block(spacing: 1.8em)
@@ -457,7 +407,7 @@
       // Apply list spacing for draft mode
       show list: it => {
         set par(leading: 1.2em, spacing: 1.2em)
-        set list(spacing: 1.2em)  // Space between list items
+        set list(spacing: 1.2em)
         it
       }
       
@@ -479,7 +429,7 @@
           #set text(size: 24.88pt, weight: "bold", font: "Times New Roman")
           #align(left)[#it.body]
         ]
-        v(1.8em)  // 1.5 line spacing after chapter
+        v(1.8em)
       }
       
       // Style section headings (level 2) for draft mode
@@ -537,7 +487,13 @@
   // Start front matter with roman numerals (no header on preamble pages)
   set page(
     numbering: "i",
-    header: none
+    margin: (
+        left:   3.0cm,
+        right:  2.5cm,
+        top:    3.5cm,
+        bottom: 2.5cm,
+      ),
+    header: none,
   )
   counter(page).update(1)
   

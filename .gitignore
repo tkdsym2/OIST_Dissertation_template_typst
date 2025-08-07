@@ -4,3 +4,4 @@ latex_template
 
 .DS_Store
 # .claude
+.vscode
