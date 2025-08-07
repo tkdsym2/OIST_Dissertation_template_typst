@@ -64,6 +64,18 @@
   is-chapter-start.update(false)
 }
 
+// Page footer function for preamble pages - NEW FUNCTION
+#let preamble_footer = context {
+  let current_page = counter(page).display("i")  // Roman numerals for preamble
+  
+  // ページ番号を中央下に配置（ページ下端から2.5cmの位置）
+  place(
+    bottom + center,
+    dy: -2.5cm,  // ページ下端から2.5cmの位置（負の値で上に移動）
+    text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
+  )
+}
+
 // Title page function
 #let title_page(title, author, supervisor, cosupervisor, submission_date) = {
   // Set Times New Roman font for title page (instead of CMU Serif)
@@ -201,7 +213,7 @@
   thesis-author.update(author)
   thesis-submission-date.update(submission_date)
   
-  // Configure page settings - STANDARD TYPST APPROACH
+  // Configure page settings - FIXED: Remove footer from main content pages
   if mode == "submission" {
     set page(
       paper:  "a4",
@@ -212,6 +224,8 @@
         bottom: 2.5cm,
       ),
       header: page_header,
+      footer: none,  // フッターを明示的に無効化
+      numbering: "1",  // Enable numbering but display it in header only
       binding: left,
     )
   } else {
@@ -225,6 +239,8 @@
         bottom: 2.5cm,
       ),
       header: page_header,
+      footer: none,  // フッターを明示的に無効化
+      numbering: "1",  // Enable numbering but display it in header only
     )
   }
 
@@ -537,7 +553,7 @@
   // Title page
   title_page(title, author, supervisor, cosupervisor, submission_date)
   
-  // Start front matter with roman numerals (no header on preamble pages)
+  // Start front matter with roman numerals - MODIFIED TO USE FOOTER
   set page(
     numbering: "i",
     margin: (
@@ -547,6 +563,7 @@
         bottom: 2.5cm,
       ),
     header: none,
+    footer: preamble_footer,  // Use the new footer function for preamble pages
   )
   counter(page).update(1)
   

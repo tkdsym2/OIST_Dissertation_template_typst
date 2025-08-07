@@ -62,8 +62,13 @@
 // MAIN TEXT
 // ================================
 
-// Switch to main content with headers but no bottom page numbers
-#set page(numbering: none, header: page_header)
+// Switch to main content with headers only (no footer page numbers)
+// FIXED: Set proper page configuration for main content
+#set page(
+  numbering: "1",  // Enable page numbering (but it will show in header only)
+  header: page_header,
+  footer: none,  // Explicitly disable footer
+)
 #counter(page).update(1)
 
 // Main chapters
