@@ -8,19 +8,60 @@
 #let thesis-author = state("thesis-author", "")
 #let thesis-submission-date = state("thesis-submission-date", "")
 
+// State to track if we're on the first page of a chapter
+#let is-chapter-start = state("is-chapter-start", false)
 
-// Page header function - SIMPLIFIED VERSION
+// State to store current chapter title
+#let current-chapter-title = state("current-chapter-title", "")
+
+// Page header function - ENHANCED VERSION WITH CHAPTER NAME AND UNDERLINE
 #let page_header = context {
-  // シンプルなヘッダー：ページ番号のみを右上に表示
   let current_page = counter(page).get().first()
+  let chapter_start = is-chapter-start.get()
+  let chapter_title = current-chapter-title.get()
   
-  // placeを使ってページ上端から2.5cmの位置に正確に配置
-  place(
-    top + right,
-    dy: 2.5cm,  // ページ上端から2.5cmの位置
-    dx: 0cm,
-    text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
-  )
+  // チャプターの最初のページの場合：ページ番号のみを右上に表示（下線なし）
+  if chapter_start {
+    place(
+      top + right,
+      dy: 2.5cm,  // ページ上端から2.5cmの位置
+      dx: 0cm,
+      text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
+    )
+  } else {
+    // それ以外のページ：左端にチャプター名のみ、右端にページ番号、そして下線
+    
+    // 左端にチャプター名を表示（チャプター名のみ、"Chapter X:"なし）
+    if chapter_title != "" {
+      place(
+        top + left,
+        dy: 2.5cm,  // ページ上端から2.5cmの位置
+        dx: 0cm,
+        text(size: 10pt, weight: "regular", font: "Times New Roman")[#chapter_title]
+      )
+    }
+    
+    // 右端にページ番号を表示
+    place(
+      top + right,
+      dy: 2.5cm,  // ページ上端から2.5cmの位置
+      dx: 0cm,
+      text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
+    )
+    
+    // ヘッダーの下に線を引く（テキストの少し下、ページ幅いっぱい）
+    place(
+      top,
+      dy: 2.8cm,  // ヘッダーテキストの約3mm下
+      line(
+        length: 100%,
+        stroke: 0.5pt + black  // 細い黒線
+      )
+    )
+  }
+  
+  // Reset the chapter start flag after displaying header
+  is-chapter-start.update(false)
 }
 
 // Title page function
@@ -352,6 +393,12 @@
       
       // Style chapter headings (level 1) for submission mode
       show heading.where(level: 1): it => {
+        // Mark this as a chapter start page
+        is-chapter-start.update(true)
+        
+        // Update current chapter title - just the title, no "Chapter X:" prefix
+        current-chapter-title.update(it.body)
+        
         pagebreak(weak: true)
         v(2em)
         block[
@@ -413,6 +460,12 @@
       
       // Style chapter headings (level 1) for draft mode
       show heading.where(level: 1): it => {
+        // Mark this as a chapter start page
+        is-chapter-start.update(true)
+        
+        // Update current chapter title - just the title, no "Chapter X:" prefix
+        current-chapter-title.update(it.body)
+        
         pagebreak(weak: true)
         v(2em)
         set par(first-line-indent: 0em)
