@@ -2,11 +2,11 @@
 
 #show: doc => thesis(
   title: "Typst Dissertation Template",
-  author: "Kazuma takada",
+  author: "Kazuma Takada",
   supervisor: "S. Upervisor",
   cosupervisor: "C. O'Supervisor",
-  submission_date: "August 2025",
-  mode: "draft", // Change to "submission" for the final submission
+  submission_date: "September 2025",
+  mode: "review", // Change to "submission" for the final submission
   doc,
 )
 
