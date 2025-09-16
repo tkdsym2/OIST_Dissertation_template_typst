@@ -26,13 +26,13 @@ The main folder contains three folders detailed here:
 ```
 
 - *preamble.* This folder contains a series of typst files with the pages that will appear before the main text. Please write (or copy and paste) your own text in those files and delete the dummy text when appropriate. The files are:
-  - `abbreviations.typ` --- List of abbreviations. If the list goes over one page, create another table.
+  - `abbreviations.typ` --- List of abbreviations. If the list goes over one page, continue it as a new list on the next page.
   - `abstract.typ` --- Abstract. Follow directions in the file.
   - `acknowledgments.typ` --- Acknowledgments. Follow directions in the file.
   - `declaration.typ` --- Declaration of Original and Sole Authorship. Only modify the last item. This page needs to be signed once printed.
   - `dedication.typ` --- Dedication (optional). Should only be a very few lines.
-  - `glossary.typ` --- Glossary (optional). If the list goes over one page, create another table.
-  - `nomenclature.typ` --- Nomenclature (optional). If the list goes over one page, create another table.
+  - `glossary.typ` --- Glossary (optional). If the list goes over one page, continue it as a new list on the next page.
+  - `nomenclature.typ` --- Nomenclature (optional). If the list goes over one page, continue it as a new list on the next page.
 
 == main.typ file
 
