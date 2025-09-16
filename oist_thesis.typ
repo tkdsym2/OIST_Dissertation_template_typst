@@ -67,11 +67,10 @@
 // Page footer function for preamble pages - NEW FUNCTION
 #let preamble_footer = context {
   let current_page = counter(page).display("i")  // Roman numerals for preamble
-  
-  // ページ番号を中央下に配置（ページ下端から2.5cmの位置）
+  // すべてのモードで、ページ下端から2.5cmの位置に固定
   place(
     bottom + center,
-    dy: -2.5cm,  // ページ下端から2.5cmの位置（負の値で上に移動）
+    dy: -2.5cm,
     text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
   )
 }
@@ -220,7 +219,7 @@
       margin: (
         left:   3.0cm,
         right:  2.5cm,
-        top:    3.5cm,
+        top:    2.5cm,
         bottom: 2.5cm,
       ),
       header: page_header,
@@ -235,7 +234,7 @@
       margin: (
         left:   3.0cm,
         right:  2.5cm,
-        top:    3.5cm,
+        top:    2.5cm,
         bottom: 2.5cm,
       ),
       header: page_header,
@@ -451,6 +450,7 @@
       show outline: it => {
         set text(size: 12pt, font: "Times New Roman")
         set par(leading: 0.65em, spacing: 1.2em)
+        // No extra bottom padding in submission mode
         it
       }
       
@@ -521,34 +521,37 @@
       show outline: it => {
         set text(size: 12pt, font: "Times New Roman")
         set par(leading: 1.5em, spacing: 1.8em)
-        it
+        // Add bottom padding to avoid footer overlap
+        block(below: 10mm)[#it]
       }
       
       body
     }
   }
   
-  // Style outline entries - make chapter entries bold and add space before main content
-  show outline.entry.where(level: 1): it => {
-    // Add extra space before "Introduction" to separate from lists (ToC, LoF, LoT)
-    if it.element != none and it.element.body != none {
-      // Check if this is the Introduction heading by comparing the body content
-      if repr(it.element.body) == repr([Introduction]) {
-        v(1.0em)
-      }
-    }
-    
-    text(weight: "bold", font: "Times New Roman", it)
+// Style outline entries - make chapter entries bold and add per-entry bottom gap (to avoid footer overlap)
+show outline.entry.where(level: 1): it => {
+  // Add extra space before "Introduction" to separate from lists (ToC, LoF, LoT)
+  let intro_spacer = if it.element != none and it.element.body != none and repr(it.element.body) == repr([Introduction]) {
+    v(1.0em)
+  } else {
+    []
   }
+  let gap = if mode == "submission" { 0pt } else { 8mm }
+  block(below: gap)[#intro_spacer #text(weight: "bold", font: "Times New Roman", it)]
+}
 
-  // Style figure and table outline entries with thin font weight
-  show outline.entry: it => {
-    if it.element != none and it.element.func() == figure {
-      text(weight: "regular", font: "Times New Roman", it)
-    } else {
-      it
-    }
+// Style figure and table outline entries with thin font weight
+// Add per-entry bottom gap in review/draft mode to avoid footer overlap
+show outline.entry: it => {
+  let styled = if it.element != none and it.element.func() == figure {
+    text(weight: "regular", font: "Times New Roman", it)
+  } else {
+    it
   }
+  let gap = if mode == "submission" { 0pt } else { 8mm }
+  block(below: gap)[#styled]
+}
   
   // Title page
   title_page(title, author, supervisor, cosupervisor, submission_date)
