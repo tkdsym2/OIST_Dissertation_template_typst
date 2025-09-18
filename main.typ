@@ -5,7 +5,7 @@
   author: "Kazuma Takada",
   supervisor: "S. Upervisor",
   cosupervisor: "C. O'Supervisor",
-  submission_date: "September 2025",
+  submission_date: "Septeber 2025",
   mode: "review", // Change to "submission" for the final submission
   doc,
 )
@@ -42,10 +42,7 @@
 // List of Figures
 #unnumbered-chapter("List of Figures")
 #v(2em)
-#outline(
-  title: none,
-  target: figure.where(kind: image),
-)
+#list_of_figures()
 
 // Add space before List of Tables
 #v(2em)
@@ -53,10 +50,7 @@
 // List of Tables
 #unnumbered-chapter("List of Tables")
 #v(2em)
-#outline(
-  title: none,
-  target: figure.where(kind: table),
-)
+#list_of_tables()
 
 // ================================
 // MAIN TEXT

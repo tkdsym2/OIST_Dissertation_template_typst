@@ -262,10 +262,10 @@
     // Use Helvetica (sans-serif) at 10pt
     set text(font: "Helvetica", size: 10pt)
     set align(left)
-    
+
     // Determine if it's a figure or table
     let fig = query(figure).find(f => f.caption == it)
-    
+
     if fig != none {
       context {
         if fig.body.func() == image {
@@ -541,14 +541,42 @@ show outline.entry.where(level: 1): it => {
   block(below: gap)[#intro_spacer #text(weight: "bold", font: "Times New Roman", it)]
 }
 
-// Style figure and table outline entries with thin font weight
-// Add per-entry bottom gap in review/draft mode to avoid footer overlap
-show outline.entry: it => {
-  let styled = if it.element != none and it.element.func() == figure {
-    text(weight: "regular", font: "Times New Roman", it)
+// Figure & table entries in outlines (LoF/LoT): show short title instead of full caption
+show outline.entry.where(element: figure): it => {
+  let fig = it.element
+  let caption_children = if fig.caption == none {
+    none
   } else {
-    it
+    fig.caption.body.fields().at("children", default: none)
   }
+  let first_child = if caption_children == none { none } else { caption_children.at(0, default: none) }
+  let custom_short = if first_child != none and first_child.func() == strong {
+    first_child.fields().at("body", default: first_child)
+  } else {
+    none
+  }
+  // Determine label (Figure / Table / supplement)
+  let label = if fig.body.func() == table {
+    "Table"
+  } else if fig.body.func() == image {
+    "Figure"
+  } else {
+    fig.supplement
+  }
+  // Number text
+  let num_text = fig.counter.display(fig.numbering)
+  // Fallback to full caption if no custom short provided
+  let short_display = if custom_short != none { custom_short } else { fig.caption.body }
+  let gap = if mode == "submission" { 0pt } else { 8mm }
+  block(below: gap)[
+    #set text(weight: "regular", font: "Times New Roman")
+    [*#label #num_text* ]#short_display
+  ]
+}
+
+// Non-figure entries keep default content but with spacing in draft mode
+show outline.entry: it => {
+  let styled = it
   let gap = if mode == "submission" { 0pt } else { 8mm }
   block(below: gap)[#styled]
 }
@@ -583,3 +611,52 @@ show outline.entry: it => {
 #let unnumbered-chapter(title) = {
   heading(level: 1, numbering: none, outlined: true, title)
 }
+
+// -----------------------------------------------
+// Figures/Tables with optional short titles
+// -----------------------------------------------
+
+// Track whether we are rendering a List of Figures/Tables entry
+#let _in_list_mode = state("in-lof-lot", none)
+
+// Wrapper for figures/tables that accepts an optional short title for LoF/LoT.
+// Usage:
+//   #custom_figure(image("..."), short: [Short Title], caption: [Full detailed caption...]) <fig-id>
+//   #custom_figure(table(...),  short: [Short Title], caption: [Full detailed caption...]) <tab-id>
+#let custom_figure(body, caption: none, short: none) = {
+  let cap_content = if caption != none { caption } else { [] }
+  let short_content = if short != none { short } else { cap_content }
+
+  let caption_block = context {
+    let mode = _in_list_mode.get()
+    if mode != none {
+      short_content
+    } else if short != none {
+      [#strong(short) #text(": ") #cap_content]
+    } else {
+      cap_content
+    }
+  }
+
+  figure(body, caption: caption_block)
+}
+
+// Backward compatibility alias
+#let oist_figure = custom_figure
+
+// Build LoF/LoT using built-in outline (handles dots/page alignment)
+
+// Public helpers to list figures and tables
+#let list_of_figures() = context {
+  _in_list_mode.update("figures")
+  outline(title: none, target: figure.where(kind: image))
+  _in_list_mode.update(none)
+}
+
+#let list_of_tables() = context {
+  _in_list_mode.update("tables")
+  outline(title: none, target: figure.where(kind: table))
+  _in_list_mode.update(none)
+}
+
+// list_of_figures / list_of_tables moved above to use outline

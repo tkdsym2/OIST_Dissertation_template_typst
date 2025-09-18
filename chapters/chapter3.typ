@@ -1,3 +1,5 @@
+#import "../oist_thesis.typ": custom_figure
+
 #heading("Figures, tables and images") <chap-3>
 
 Here, we describe figures and tables with how to refer.
@@ -20,6 +22,24 @@ Refer to figure like this: `@fig-example`. It will be shown as @fig-example. If 
 ) <fig-example>
 
 The style of figures is defined based on GS Policies.
+
+=== Short titles for LoF/LoT
+
+If you want to show a short headline (summary) in the List of Figures/Table, use `#custom_figure(...)` and pass a `short:` argument in addition to the full `caption:`. In the body, the caption will appear as “Short Title: Full caption …”, while the lists will display only the “Short Title”.
+
+```typ
+#custom_figure(
+  image("../images/chap3/emblem.jpg", width: 50%),
+  short: [Emblem],
+  caption: [Full caption with all the details here. Font size has to be 10pt, and sentences have to be left-aligned.],
+) <fig-example-short>
+```
+
+#custom_figure(
+  image("../images/chap3/emblem.jpg", width: 50%),
+  short: [Emblem],
+  caption: [Full caption with all the details here. Font size has to be 10pt, and sentences have to be left-aligned.],
+) <fig-example-short>
 
 #set quote(block: true)
 #quote(attribution: [OIST, Graduate School Policies#footnote[#link("https://www.oist.jp/education/policies-regulations/gs-policies")]])[
@@ -51,7 +71,7 @@ The table can be created as follows.
 ) <tab-values>
 ```
 
-#figure(
+#custom_figure(
   table(
     columns: (auto, auto),
     align: (center, center),
@@ -63,8 +83,29 @@ The table can be created as follows.
     $kappa$, "6.8",
     $gamma$, "0.2",
   ),
+  short: [tables],
   caption: [Short heading for the List of Tables.],
 ) <tab-values>
+
+You can also supply short titles for tables using `custom_figure`:
+
+```typ
+#custom_figure(
+  table(
+    columns: (auto, auto),
+    align: (center, center),
+    [Parameter], [Value],
+    line(length: 100%), line(length: 100%),
+    $Delta$, "0, 150",
+    $alpha$, "85",
+    $epsilon$, "6",
+    $kappa$, "6.8",
+    $gamma$, "0.2",
+  ),
+  short: [Parameter Summary],
+  caption: [Full table caption with details.],
+) <tab-values-short>
+```
 
 Refer to tables like this: `@tab-values`, which will be shown as @tab-values. Shorten form can be written as `@tab-values[Tab.]`, which will be shown as @tab-values[Tab.]. 
 
