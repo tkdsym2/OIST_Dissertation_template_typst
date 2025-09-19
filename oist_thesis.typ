@@ -376,12 +376,22 @@
     }
   }
   
-  // Style for links
+  // Style for links (Times New Roman handled separately for footnotes below)
   show link: it => {
-    set text(font: "CMU Sans Serif")
+    set text(font: "Times New Roman")
     underline(it)
   }
-  
+
+  // Ensure footnote text (including links) stays in Times New Roman
+  show footnote.entry: entry => context {
+    set text(font: "Times New Roman")
+    show link: link => context {
+      set text(font: "Times New Roman")
+      underline(link)
+    }
+    entry
+  }
+
   // Apply mode-specific spacing using show rule (recommended approach)
   show: body => {
     if mode == "submission" {
