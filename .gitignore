@@ -1,5 +1,7 @@
 *.pdf
 !main.pdf
+!submission_version.pdf
+!review_version.pdf
 latex_template
 
 .DS_Store
