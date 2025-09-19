@@ -114,20 +114,21 @@ Refer to tables like this: `@tab-values`, which will be shown as @tab-values. Sh
   _*Tables*: All tables should be referred to in the text by number (for example, “Table 3.1 describes all particles found in…”).  Tables may be printed in landscape rather than portrait orientation but must be printed on a separate page with continuing and sequential pagination.  Tables may extend for more than one page but should then have the table header row repeated on each page.  Arial, Helvetica or Calibri, 10-point font, should be used for tables.  Tables should have a heading and may have a caption.  The number of the chapter should be part of the table number._
 ]
 
-Additional images are attached below (@fig-Timeconversion[Fig.], @fig-Env_statistics[Fig.]).
+Additional images are attached below (@fig-writing_thesis_by_hand[Fig.], @fig-tools_paradigm[Fig.]).
 
-First figure is an example of time expression, which shows how time can be expressed in different formats. The second figure is a statistical characterization of meteorological data, which includes p-values calculated using Kruskal-Wallis tests across months.
-
-#figure(
-  image("../images/chap3/TimeConversion.png", width: 50%),
-  caption: [Example of Time Expression: Example of time expressed in AM/PM, 24-hour time (military time) and hour of day format. Feeding time which were originally military time format were converted to decimal time format (hour of day) for XX regression.],
-) <fig-Timeconversion>
-
-Second figure is a statistical characterization of meteorological data, which includes p-values calculated using Kruskal-Wallis tests across months.
+The first figure shows a Ph.D. candidate writing a thesis by hand. To avoid suspicion of using GPT, this university seems to have reverted to handwritten submissions.
 
 #figure(
-  image("../images/chap3/TableExample.png", width: 100%),
-  caption: [Statistic Characterization of Meteorological Data: P-values were calculated using Kruskal-Wallis tests across months. Significant differences were identified at a false discovery rate -adjusted p-value < 0.05.],
-) <fig-Env_statistics>
+  image("../images/chap3/writing_thesis.svg", width: 100%),
+  caption: [A Ph.D. candidate writing his dissertation. Holding a pen, but unable to start the first sentence. Created by Google Nano Banana.],
+) <fig-writing_thesis_by_hand>
+
+The second figure illustrates a paradigm shift in thesis writing. It evolves from handwriting to Virtual Reality (VR).
+
+#custom_figure(
+  image("../images/chap3/writing_thesis_paradigm.svg", width: 100%),
+  short: [The process by which a Ph.D. candidate's tools for writing their dissertation change.],
+  caption: [(A) Handwritten, (B) Typewriter, (C) Laptop, (D) VR space. The only thing GPT seems unlikely to interfere with is the typewriter. On the other hand, if our arms were driven by Electrical Muscle Stimulation, that might be a different story.],
+) <fig-tools_paradigm>
 
 These figures are examples of how to present data in a clear and concise manner.
