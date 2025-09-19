@@ -67,9 +67,9 @@
 
 // Main chapters
 #include "chapters/introduction.typ"
-#include "chapters/chapter1.typ"
-#include "chapters/chapter2.typ"
-#include "chapters/chapter3.typ"
+#include "chapters/guideline.typ"
+#include "chapters/howtouse.typ"
+#include "chapters/figures_tables.typ"
 #include "chapters/conclusion.typ"
 
 // ================================

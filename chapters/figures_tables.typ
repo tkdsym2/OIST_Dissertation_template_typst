@@ -1,6 +1,6 @@
 #import "../oist_thesis.typ": custom_figure
 
-#heading("Figures, tables and images") <chap-3>
+#heading(level: 1, "Figures, tables and images") <chap-3>
 
 Here, we describe figures and tables with how to refer.
 

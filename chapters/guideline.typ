@@ -1,4 +1,4 @@
-#heading("Guidelines on the Preparation of Thesis") <ch-1>
+#heading(level: 1, "Guidelines on the Preparation of Thesis") <ch-1>
 
 Please refer to #link("https://groups.oist.jp/grad/academic-program-policies") for specifications.
 
