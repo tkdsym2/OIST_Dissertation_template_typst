@@ -20,42 +20,38 @@
   let chapter_start = is-chapter-start.get()
   let chapter_title = current-chapter-title.get()
   
-  // チャプターの最初のページの場合：ページ番号のみを右上に表示（下線なし）
+  // if it's the start of a chapter, show only page number centered at top right
   if chapter_start {
     place(
       top + right,
-      dy: 2.5cm,  // ページ上端から2.5cmの位置
+      dy: 2.5cm,
       dx: 0cm,
       text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
     )
   } else {
-    // それ以外のページ：左端にチャプター名のみ、右端にページ番号、そして下線
-    
-    // 左端にチャプター名を表示（チャプター名のみ、"Chapter X:"なし）
+    // if not chapter start, show chapter title on the left and page number on the right
     if chapter_title != "" {
       place(
         top + left,
-        dy: 2.5cm,  // ページ上端から2.5cmの位置
+        dy: 2.5cm,
         dx: 0cm,
         text(size: 10pt, weight: "regular", font: "Times New Roman")[#chapter_title]
       )
     }
     
-    // 右端にページ番号を表示
     place(
       top + right,
-      dy: 2.5cm,  // ページ上端から2.5cmの位置
+      dy: 2.5cm,
       dx: 0cm,
       text(size: 10pt, weight: "regular", font: "Times New Roman")[#current_page]
     )
     
-    // ヘッダーの下に線を引く（テキストの少し下、ページ幅いっぱい）
     place(
       top,
-      dy: 2.8cm,  // ヘッダーテキストの約3mm下
+      dy: 2.8cm,
       line(
         length: 100%,
-        stroke: 0.5pt + black  // 細い黒線
+        stroke: 0.5pt + black
       )
     )
   }
@@ -67,7 +63,7 @@
 // Page footer function for preamble pages - NEW FUNCTION
 #let preamble_footer = context {
   let current_page = counter(page).display("i")  // Roman numerals for preamble
-  // すべてのモードで、ページ下端から2.5cmの位置に固定
+  // fixed position at bottom center
   place(
     bottom + center,
     dy: -2.5cm,
@@ -223,7 +219,7 @@
         bottom: 2.5cm,
       ),
       header: page_header,
-      footer: none,  // フッターを明示的に無効化
+      footer: none,
       numbering: "1",  // Enable numbering but display it in header only
       binding: left,
     )
@@ -238,7 +234,7 @@
         bottom: 2.5cm,
       ),
       header: page_header,
-      footer: none,  // フッターを明示的に無効化
+      footer: none,
       numbering: "1",  // Enable numbering but display it in header only
     )
   }
