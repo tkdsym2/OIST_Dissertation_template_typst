@@ -297,7 +297,7 @@
           #set text(font: "Helvetica", size: 10pt)
           #context {
             let fig = it
-            [*Table #fig.counter.display(fig.numbering)*: #fig.caption.body]
+          [*Table #fig.counter.display(fig.numbering)*#text(": ")#fig.caption.body]
           }
         ]
         #block(spacing: 10pt, it.body)
@@ -312,9 +312,9 @@
           #context {
             let fig = it
             if fig.body.func() == image {
-              [*Figure #fig.counter.display(fig.numbering)*: #fig.caption.body]
+              [*Figure #fig.counter.display(fig.numbering)*#text(": ")#fig.caption.body]
             } else {
-              [*#fig.supplement #fig.counter.display(fig.numbering)*: #fig.caption.body]
+              [*#fig.supplement #fig.counter.display(fig.numbering)*#text(": ")#fig.caption.body]
             }
           }
         ]
@@ -642,7 +642,11 @@ show outline.entry: it => {
     if mode != none {
       short_content
     } else if short != none {
-      [#strong(short) #text(": ") #cap_content]
+      if caption != none {
+        [#short #cap_content] //. if you want to emphasize the short title, use a strong tag, like #strong(short)
+      } else {
+        strong(short)
+      }
     } else {
       cap_content
     }
