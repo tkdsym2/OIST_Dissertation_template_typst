@@ -1,3 +1,3 @@
-#heading(level: 1, numbering: none, "Conclusion")
+#heading(level: 1, "Conclusion")
 
 This is the conclusion.
