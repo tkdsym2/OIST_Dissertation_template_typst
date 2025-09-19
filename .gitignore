@@ -3,5 +3,5 @@
 latex_template
 
 .DS_Store
-# .claude
+.claude
 .vscode

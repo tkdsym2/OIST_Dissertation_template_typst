@@ -25,19 +25,19 @@ The style of figures is defined based on GS Policies.
 
 === Short titles for LoF/LoT
 
-If you want to show a short headline (summary) in the List of Figures/Table, use `#custom_figure(...)` and pass a `short:` argument in addition to the full `caption:`. In the body, the caption will appear as “Short Title: Full caption …”, while the lists will display only the “Short Title”.
+If you want to show a short headline (summary) in the List of Figures/Table, use `#custom_figure(...)` and pass a `short:` argument in addition to the full `caption:`. In the body, the caption will appear as “Figure: Short Title Full caption …”, while the lists will display only the “Short Title”.
 
 ```typ
 #custom_figure(
   image("../images/chap3/emblem.jpg", width: 50%),
-  short: [Emblem],
+  short: [Logo, short caption for LoF],
   caption: [Full caption with all the details here. Font size has to be 10pt, and sentences have to be left-aligned.],
 ) <fig-example-short>
 ```
 
 #custom_figure(
   image("../images/chap3/emblem.jpg", width: 50%),
-  short: [Emblem],
+  short: [Logo, short caption for LoF.],
   caption: [Full caption with all the details here. Font size has to be 10pt, and sentences have to be left-aligned.],
 ) <fig-example-short>
 

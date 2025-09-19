@@ -5,7 +5,7 @@
   author: "Kazuma Takada",
   supervisor: "S. Upervisor",
   cosupervisor: "C. O'Supervisor",
-  submission_date: "Septeber 2025",
+  submission_date: "September 2025",
   mode: "review", // Change to "submission" for the final submission
   doc,
 )
